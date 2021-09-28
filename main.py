@@ -1,16 +1,19 @@
 from csv import reader as read
 from random import choice as pick
 from os import system, name
+from art import logo, vs
+
 
 def clear():
-  
+
     # for windows
     if name == 'nt':
         _ = system('cls')
-  
+
     # for mac and linux(here, os.name is 'posix')
     else:
         _ = system('clear')
+
 
 def initialize_topics(dict_file):
     """Generates and returns the dictionary from a csv-file (style 'topic';full number"""
@@ -31,7 +34,7 @@ def select_answer():
 
     while choice != "a" and choice != "b":
         choice = input(
-            "\nThe search number is...\n\n(A) higher ➕👍 \n(B) lower ➖👎\n > ").lower()
+          "\nThe search number is...\n\n(A) higher ➕👍 \n(B) lower ➖👎\n > ").lower()
         if choice != "a" and choice != "b":
             print("Please only pick 'A' or 'B' !")
     return choice
@@ -50,13 +53,14 @@ def compare_numbers(topic1, topic2, topic_dict):
     first_number = topic_dict[topic1]
     second_number = topic_dict[topic2]
 
-    print("'{}': {}k searches".format(topic1, first_number))
-    print("vs.\n '{}': ??k searches".format(topic2))
+    print("'{}'\n ca. {}k searches".format(topic1, first_number))
+    print(vs)
+    print("'{}'".format(topic2))
     answer = select_answer()
 
     if answer == "a" and second_number >= topic_dict[topic1]:
-        print("Correct, the search number of '{}' was higher\n     ca. {}k searches !".format(topic2, second_number))
-        
+        print("CORRECT!\n'{}'\nca. {}k searches !".format(
+            topic2, second_number))
 
         go_on = input("Hit Enter for next round or 'N' for retire: ").lower()
 
@@ -67,7 +71,8 @@ def compare_numbers(topic1, topic2, topic_dict):
             return False
 
     elif answer == "b" and topic_dict[topic2] <= topic_dict[topic1]:
-        print("Correct, the search number of '{}' was lower\n     ca. {}k searches !".format(topic2, topic_dict[topic2]))
+        print("CORRECT!\n'{}'\nca. {}k searches !".format(
+            topic2, topic_dict[topic2]))
 
         go_on = input("Hit Enter for next round or 'N' for retire: ").lower()
 
@@ -77,19 +82,31 @@ def compare_numbers(topic1, topic2, topic_dict):
         else:
             return False
     else:
-        print("Wrong, the search number of\n '{}' was ca. {}k searches !".format(topic2, topic_dict[topic2]))
+        print("WRONG!\n'{}'\nca. {}k searches !".format(
+            topic2, topic_dict[topic2]))
         return False
 
-game = True
-gamedict = initialize_topics('google_trends.csv')
-score = -1
 
-first_topic = pick_topic(gamedict)
+print(logo)
+print(
+    "Welcome to the Higher-Lower-Game\nGuess the popularity of Google-search topics!"
+)
+while input("Start a new Game? (y/n)\n> ").lower() != "n":
+    clear()
+    print(logo)
+    game = True
+    gamedict = initialize_topics('google_trends.csv')
+    score = -1
 
-while game:
-    score += 1
-    new_topic = pick_topic(gamedict)
+    first_topic = pick_topic(gamedict)
 
-    game = compare_numbers(first_topic, new_topic, gamedict)
-    first_topic = new_topic
-print("Game Over, your end score is {}".format(score))
+    while game:
+        clear()
+        print(logo)
+        score += 1
+        new_topic = pick_topic(gamedict)
+
+        game = compare_numbers(first_topic, new_topic, gamedict)
+        first_topic = new_topic
+    print("Game Over, your end score is {}".format(score))
+print("Thank you for dropping by :)\n Good bye, and take care.")
