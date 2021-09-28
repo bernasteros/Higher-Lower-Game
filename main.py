@@ -89,7 +89,7 @@ def compare_numbers(topic1, topic2, topic_dict):
 
 print(logo)
 print(
-    "Welcome to the Higher-Lower-Game\nGuess the popularity of Google-search topics!"
+    "Welcome to the Higher-Lower-Game\nGuess the popularity of Google-search topics!\n"
 )
 while input("Start a new Game? (y/n)\n> ").lower() != "n":
     clear()
@@ -108,5 +108,5 @@ while input("Start a new Game? (y/n)\n> ").lower() != "n":
 
         game = compare_numbers(first_topic, new_topic, gamedict)
         first_topic = new_topic
-    print("Game Over, your end score is {}".format(score))
+    print("Game Over, your end score is {}\n".format(score))
 print("Thank you for dropping by :)\n Good bye, and take care.")
